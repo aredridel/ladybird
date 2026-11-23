@@ -90,7 +90,7 @@ static NEXT_BLOCK: AtomicU32 = AtomicU32::new(1);
 /// A number that no block has had, or 0 when all the numbers are used.
 fn new_block_number() -> u32 {
     NEXT_BLOCK
-        .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |number| number.checked_add(1))
+        .try_update(Ordering::Relaxed, Ordering::Relaxed, |number| number.checked_add(1))
         .unwrap_or(0)
 }
 
